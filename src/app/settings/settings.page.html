@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Configuración</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-item>
+    <ion-label>Permitir borrar citas en Inicio</ion-label>
+    <ion-toggle [checked]="allowDeleteOnHome" (ionChange)="onToggleChange($event.detail.checked)"></ion-toggle>
+  </ion-item>
+
+  <ion-text>
+    Esta opción se guardará en el dispositivo usando Preferences.
+  </ion-text>
+
+</ion-content>

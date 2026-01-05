@@ -1,0 +1,14 @@
+<!-- Card reutilizable para mostrar una cita -->
+<ion-card *ngIf="quote">
+  <ion-card-header>
+    <ion-card-title>"{{ quote.text }}"</ion-card-title>
+    <ion-card-subtitle>— {{ quote.author }}</ion-card-subtitle>
+  </ion-card-header>
+
+  <!-- Botón eliminar solo si canDelete = true -->
+  <ion-card-content>
+    <ion-button *ngIf="canDelete" expand="block" color="danger" (click)="onDeleteClick()">
+      Eliminar
+    </ion-button>
+  </ion-card-content>
+</ion-card>
