@@ -13,10 +13,10 @@
       </ion-item>
 
       <!-- Mensajes de error (✅ *ngIf) -->
-      <ion-text color="danger" *ngIf="textCtrl?.touched && textCtrl?.errors?.['required']">
+      <ion-text color="danger" *ngIf="(textCtrl?.dirty || textCtrl?.touched) && textCtrl?.errors?.['required']">
         La frase es obligatoria.
       </ion-text>
-      <ion-text color="danger" *ngIf="textCtrl?.touched && textCtrl?.errors?.['minlength']">
+      <ion-text color="danger" *ngIf="(textCtrl?.dirty || textCtrl?.touched) && textCtrl?.errors?.['minlength']">
         La frase debe tener mínimo 5 caracteres.
       </ion-text>
 
@@ -27,10 +27,10 @@
       </ion-item>
 
       <!-- Mensajes de error (✅ *ngIf) -->
-      <ion-text color="danger" *ngIf="authorCtrl?.touched && authorCtrl?.errors?.['required']">
+      <ion-text color="danger" *ngIf="(authorCtrl?.dirty || authorCtrl?.touched) && authorCtrl?.errors?.['required']">
         El autor es obligatorio.
       </ion-text>
-      <ion-text color="danger" *ngIf="authorCtrl?.touched && authorCtrl?.errors?.['minlength']">
+      <ion-text color="danger" *ngIf="(authorCtrl?.dirty || authorCtrl?.touched) && authorCtrl?.errors?.['minlength']">
         El autor debe tener mínimo 2 caracteres.
       </ion-text>
 
