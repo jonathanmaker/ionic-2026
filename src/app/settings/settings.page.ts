@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   IonHeader,
@@ -10,6 +10,8 @@ import {
   IonToggle,
   IonText
 } from '@ionic/angular/standalone';
+
+import { SettingsService } from '../services/settings.service';
 
 @Component({
   selector: 'app-settings',
@@ -28,11 +30,18 @@ import {
     FormsModule
   ]
 })
-export class SettingsPage {
+export class SettingsPage implements OnInit {
   // Luego esto se persistirá con Preferences
   allowDeleteOnHome = false;
 
-  onToggleChange(value: boolean): void {
+  constructor(private settingsService: SettingsService) { }
+
+  async ngOnInit() {
+    this.allowDeleteOnHome = await this.settingsService.getAllowDeleteOnHome();
+  }
+
+  async onToggleChange(value: boolean) {
     this.allowDeleteOnHome = value;
+    await this.settingsService.setAllowDeleteOnHome(value);
   }
 }

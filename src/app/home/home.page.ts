@@ -12,7 +12,9 @@ import {
 } from '@ionic/angular/standalone';
 import { Quote } from '../../app/models/quote.model';
 import { QuotesService } from '../../app/services/quotes.service';
+import { SettingsService } from '../../app/services/settings.service';
 import { QuoteCardComponent } from '../quote-card/quote-card.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -29,21 +31,34 @@ import { QuoteCardComponent } from '../quote-card/quote-card.component';
     IonItem,
     IonLabel,
     QuoteCardComponent,
-    RouterModule
+    RouterModule,
+    CommonModule
   ]
 })
 export class HomePage implements OnInit {
   randomQuote!: Quote;
+  allowDelete = false;
 
-  constructor(private quotesService: QuotesService) { }
+  constructor(
+    private quotesService: QuotesService,
+    private settingsService: SettingsService
+  ) { }
 
-  ngOnInit(): void {
-    // Al entrar por primera vez, mostramos una cita aleatoria
-    this.loadRandom();
+  async ngOnInit() {
+    await this.loadSettings();
+    await this.loadRandom();
   }
 
-  loadRandom(): void {
-    this.randomQuote = this.quotesService.getRandomQuote();
+  async loadSettings() {
+    this.allowDelete = await this.settingsService.getAllowDeleteOnHome();
+  }
+
+  async loadRandom() {
+    this.randomQuote = await this.quotesService.getRandomQuote();
+  }
+
+  async onDelete(id: number) {
+    await this.quotesService.remove(id);
+    await this.loadRandom();
   }
 }
-

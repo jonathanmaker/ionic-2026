@@ -6,7 +6,7 @@
 
 <ion-content class="ion-padding">
 
-  <app-quote-card [quote]="randomQuote"></app-quote-card>
+  <app-quote-card [quote]="randomQuote" [canDelete]="allowDelete" (delete)="onDelete($event)"></app-quote-card>
 
   <ion-button expand="block" (click)="loadRandom()">
     Otra cita aleatoria
