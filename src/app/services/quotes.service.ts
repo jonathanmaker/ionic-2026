@@ -1,38 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Quote } from '../models/quote.model';
+import { DatabaseService } from './database.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+    providedIn: 'root'
+})
 export class QuotesService {
-    // Datos de ejemplo (prototipo). Luego esto se reemplaza por SQLite.
-    private quotes: Quote[] = [
-        { id: 1, text: 'La disciplina vence al talento cuando el talento no se disciplina.', author: 'Anónimo' },
-        { id: 2, text: 'Lo que no se mide, no se puede mejorar.', author: 'Peter Drucker' },
-        { id: 3, text: 'Primero resuelve el problema, después escribe el código.', author: 'John Johnson' }
-    ];
 
-    // Devuelve todas las citas
-    getAll(): Quote[] {
-        return [...this.quotes]; // copia para evitar cambios directos fuera del servicio
+    constructor(private dbService: DatabaseService) { }
+
+    async getAll(): Promise<Quote[]> {
+        return await this.dbService.getQuotes();
     }
 
-    // Devuelve una cita aleatoria (para Home)
-    getRandomQuote(): Quote {
-        const index = Math.floor(Math.random() * this.quotes.length);
-        return this.quotes[index];
+    async getRandomQuote(): Promise<Quote> {
+        const quotes = await this.dbService.getQuotes();
+        if (quotes.length === 0) {
+            return { id: 0, text: 'No hay citas disponibles', author: 'Sistema' };
+        }
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        return quotes[randomIndex];
     }
 
-    // Agrega una cita (id simulado)
-    add(newQuote: Omit<Quote, 'id'>): Quote {
-        // Toma el último elemento de forma compatible (sin .at)
-        const last = this.quotes.length > 0 ? this.quotes[this.quotes.length - 1] : undefined;
-        const nextId = (last?.id ?? 0) + 1;
-        const quote: Quote = { id: nextId, ...newQuote };
-        this.quotes.push(quote);
-        return quote;
+    async add(quote: Omit<Quote, 'id'>): Promise<void> {
+        await this.dbService.addQuote(quote);
     }
 
-    // Elimina por id
-    remove(id: number): void {
-        this.quotes = this.quotes.filter(q => q.id !== id);
+    async remove(id: number): Promise<void> {
+        await this.dbService.deleteQuote(id);
     }
 }

@@ -37,24 +37,24 @@ export class QuotesPage implements OnInit {
 
   constructor(private quotesService: QuotesService) { }
 
-  ngOnInit(): void {
-    this.loadQuotes();
+  async ngOnInit() {
+    await this.loadQuotes();
   }
 
-  loadQuotes(): void {
-    this.quotes = this.quotesService.getAll();
+  async loadQuotes() {
+    this.quotes = await this.quotesService.getAll();
   }
 
   // Recibe desde QuoteForm (✅ @Output save)
-  onSave(newQuote: Omit<Quote, 'id'>): void {
-    this.quotesService.add(newQuote);
-    this.loadQuotes();
+  async onSave(newQuote: Omit<Quote, 'id'>) {
+    await this.quotesService.add(newQuote);
+    await this.loadQuotes();
   }
 
   // Recibe desde QuoteCard (✅ @Output delete)
-  onDelete(id: number): void {
-    this.quotesService.remove(id);
-    this.loadQuotes();
+  async onDelete(id: number) {
+    await this.quotesService.remove(id);
+    await this.loadQuotes();
   }
 }
 

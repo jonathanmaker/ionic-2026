@@ -4,6 +4,11 @@ import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalo
 
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
+import { Capacitor } from '@capacitor/core';
+
+if (Capacitor.getPlatform() === 'web') {
+  // Web specific initialization if needed
+}
 
 bootstrapApplication(AppComponent, {
   providers: [
