@@ -1,3 +1,49 @@
-<p>
-  quote-form works!
-</p>
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Nueva cita</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+      <!-- FRASE -->
+      <ion-item>
+        <ion-label position="stacked">Frase</ion-label>
+        <ion-textarea formControlName="text" placeholder="Escribe la frase..."></ion-textarea>
+      </ion-item>
+
+      <!-- Mensajes de error (✅ *ngIf) -->
+      <ion-text color="danger" *ngIf="textCtrl?.touched && textCtrl?.errors?.['required']">
+        La frase es obligatoria.
+      </ion-text>
+      <ion-text color="danger" *ngIf="textCtrl?.touched && textCtrl?.errors?.['minlength']">
+        La frase debe tener mínimo 5 caracteres.
+      </ion-text>
+
+      <!-- AUTOR -->
+      <ion-item class="ion-margin-top">
+        <ion-label position="stacked">Autor</ion-label>
+        <ion-input formControlName="author" placeholder="Escribe el autor..."></ion-input>
+      </ion-item>
+
+      <!-- Mensajes de error (✅ *ngIf) -->
+      <ion-text color="danger" *ngIf="authorCtrl?.touched && authorCtrl?.errors?.['required']">
+        El autor es obligatorio.
+      </ion-text>
+      <ion-text color="danger" *ngIf="authorCtrl?.touched && authorCtrl?.errors?.['minlength']">
+        El autor debe tener mínimo 2 caracteres.
+      </ion-text>
+
+      <!-- Mensaje general si intentó enviar inválido -->
+      <ion-text color="danger" *ngIf="showInvalidMessage">
+        Corrige los campos marcados antes de guardar.
+      </ion-text>
+
+      <!-- Botón: bloqueado si inválido (✅) -->
+      <ion-button class="ion-margin-top" expand="block" type="submit" [disabled]="form.invalid">
+        Guardar cita
+      </ion-button>
+
+    </form>
+  </ion-card-content>
+</ion-card>

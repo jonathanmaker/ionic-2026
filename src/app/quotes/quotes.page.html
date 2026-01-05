@@ -1,13 +1,24 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>quotes</ion-title>
+    <ion-title>Gestión de Citas</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">quotes</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+
+  <!-- Formulario reutilizable -->
+  <app-quote-form (save)="onSave($event)"></app-quote-form>
+
+  <ion-item-divider class="ion-margin-top">
+    <ion-label>Listado de Citas</ion-label>
+  </ion-item-divider>
+
+  <!-- Si no hay citas -->
+  <ion-text *ngIf="quotes.length === 0">
+    No hay citas registradas.
+  </ion-text>
+
+  <!-- ✅ *ngFor para iterar -->
+  <app-quote-card *ngFor="let q of quotes" [quote]="q" [canDelete]="true" (delete)="onDelete($event)"></app-quote-card>
+
 </ion-content>
